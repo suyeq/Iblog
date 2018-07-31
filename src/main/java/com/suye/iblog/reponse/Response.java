@@ -1,28 +1,32 @@
 package com.suye.iblog.reponse;
 /**
  * 返回的内容
- * isSuccess:判断是否响应
+ * success:判断是否响应
  * message:返回的信息
  * body:返回的数据
  */
 public class Response {
-    private Boolean isSuccess;
+    private Boolean success;
     private String message;
     private Object body;
 
+    public Response(Boolean success, String message){
+        this.success = success;
+        this.message=message;
+    }
 
-    public Response(Boolean isSuccess,String message,Object body){
-        this.isSuccess=isSuccess;
+    public Response(Boolean success, String message, Object body){
+        this.success = success;
         this.message=message;
         this.body=body;
     }
 
     public Boolean getSuccess() {
-        return isSuccess;
+        return success;
     }
 
     public void setSuccess(Boolean success) {
-        isSuccess = success;
+        this.success = success;
     }
 
     public String getMessage() {

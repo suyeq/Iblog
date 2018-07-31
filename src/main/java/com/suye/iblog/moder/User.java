@@ -4,11 +4,17 @@ package com.suye.iblog.moder;
 import net.bytebuddy.implementation.bind.annotation.Empty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User 实体
@@ -16,7 +22,7 @@ import java.io.Serializable;
  */
 @Entity  // 实体
 //@XmlRootElement // MediaType 转为 XML
-public class User implements Serializable{
+public class User implements Serializable,UserDetails{
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,8 +36,8 @@ public class User implements Serializable{
 	private String name;
 
 	@NotEmpty(message = "邮箱不能为空")
-	@Size(max=50)
 	@Email(message= "邮箱格式不对" )
+	@Size(max=50)
 	@Column(nullable = false, length = 50, unique = true)
 	private String email;
 
@@ -47,6 +53,12 @@ public class User implements Serializable{
 
 	@Column(length = 200)
 	private String avatar; // 头像图片地址
+
+
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+	private List<Authority> authorities;//用户的权限list
 
 	protected User() {  // JPA 的规范要求无参构造函数；设为 protected 防止直接使用
 
@@ -95,10 +107,6 @@ public class User implements Serializable{
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -114,4 +122,40 @@ public class User implements Serializable{
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		//  需将 List<Authority> 转成 List<SimpleGrantedAuthority>，否则前端拿不到角色列表名称
+		List<SimpleGrantedAuthority> simpleAuthorities = new ArrayList<>();
+		for(GrantedAuthority authority : this.authorities){
+			simpleAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
+		}
+		return simpleAuthorities;
+	}
+
+
 }

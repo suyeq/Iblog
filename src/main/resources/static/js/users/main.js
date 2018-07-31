@@ -59,7 +59,7 @@ $(function() {
     // 获取编辑用户的界面
     $("#rightContainer").on("click",".blog-edit-user", function () {
         $.ajax({
-            url: "/users/edit/" + $(this).attr("userId"),
+            url: "/users/edit/"+$(this).attr("userId"),
             success: function(data){
                 $("#userFormContainer").html(data);
             },
@@ -77,11 +77,12 @@ $(function() {
             data:$('#userForm').serialize(),
             success: function(data){
                 $('#userForm')[0].reset();
-
                 if (data.success) {
                     // 从新刷新主界面
                     getUersByName(0, _pageSize);
-                } else {
+                    toastr.error("成功了")
+                } else if (!data.success){
+                    console.log('jinlailehahahhahah')
                     toastr.error(data.message);
                 }
 
@@ -101,10 +102,10 @@ $(function() {
 
         $.ajax({
             url: "/users/" + $(this).attr("userId") ,
-            type: 'DELETE',
-            beforeSend: function(request) {
-                request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
-            },
+            type: 'POST',
+            // beforeSend: function(request) {
+            //     request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
+            // },
             success: function(data){
                 if (data.success) {
                     // 从新刷新主界面

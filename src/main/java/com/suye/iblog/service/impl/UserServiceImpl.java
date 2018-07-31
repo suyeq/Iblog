@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public User getById(Long id) {
+        if (id==0){
+            return null;
+        }
         return userRepository.findOne(id);
     }
 
