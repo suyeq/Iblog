@@ -158,4 +158,7 @@ public class User implements Serializable,UserDetails{
 	}
 
 
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
+	}
 }

@@ -1,7 +1,9 @@
 package com.suye.iblog.controller;
 
+import com.suye.iblog.moder.Authority;
 import com.suye.iblog.moder.User;
 import com.suye.iblog.reponse.Response;
+import com.suye.iblog.service.impl.AuthorityServiceImle;
 import com.suye.iblog.service.impl.UserServiceImpl;
 import com.suye.iblog.util.DataBaseExcetionHandle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class UserController {
 	@Autowired
 	private UserServiceImpl userService;
 
+	@Autowired
+	private AuthorityServiceImle authorityService;
 	/**
 	 * 查询所用用户
 	 * @return
@@ -77,11 +81,15 @@ public class UserController {
 	/**
 	 * 提交修改/增加的用户表单
 	 * @param user
-	 * @param model
+	 * @param
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<Response> editForm(User user){
+	public ResponseEntity<Response> editForm(User user,Long authorityId){
+		//获取该用户的权限列表
+		List<Authority> authorities=new ArrayList<>();
+		authorities.add(authorityService.getAuthorityById(authorityId));
+		user.setAuthorities(authorities);
 		try{
 //			if (user.getId()==null){
 //				userService.registerUser(user);
