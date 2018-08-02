@@ -21,10 +21,11 @@ public class FileController {
     public ResponseEntity<Response> uploadFile(@RequestParam("uploadFile") MultipartFile file){
         InputStream inputStream=null;
         OutputStream outputStream=null;
-        StringBuffer sb=null;
+        StringBuffer updateFileName=null;
         try {
             inputStream=file.getInputStream();
             String fileName=file.getOriginalFilename();
+            updateFileName = new StringBuffer(fileName);
             File newFile=new File(fileAddress,fileName);
             if (!newFile.getParentFile().exists()){
                 newFile.getParentFile().mkdirs();
@@ -33,9 +34,9 @@ public class FileController {
                 //解决文件同名
                 int cnt = 1;
                 while(newFile.exists()){
-                     sb = new StringBuffer(fileName);
-                    sb.insert(sb.lastIndexOf("."), "("+cnt+")");
-                    newFile = new File(fileAddress,sb.toString());
+                    updateFileName = new StringBuffer(fileName);
+                    updateFileName.insert(updateFileName.lastIndexOf("."), "("+cnt+")");
+                    newFile = new File(fileAddress,updateFileName.toString());
                     cnt++;
                 }
             }
@@ -52,7 +53,7 @@ public class FileController {
                 e.printStackTrace();
             }
         }
-        return ResponseEntity.ok().body(new Response(true,"成功了","/images/"+sb));
+        return ResponseEntity.ok().body(new Response(true,"成功了","/images/"+updateFileName));
         //return ;
     }
 

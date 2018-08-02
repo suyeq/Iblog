@@ -84,6 +84,8 @@ $(function() {
                      // contentType: false,
                      // processData: false,
                      success: function(data){
+                     	console.log(data)
+                         $(".blog-avatar").attr("src", data);
                          console.log('成功')
                      },
                      error : function() {

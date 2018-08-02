@@ -3,7 +3,9 @@ package com.suye.iblog.service;
 import com.suye.iblog.moder.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 /**
  * 用户服务借口
  */

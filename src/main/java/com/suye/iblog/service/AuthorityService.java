@@ -1,10 +1,12 @@
 package com.suye.iblog.service;
 
 import com.suye.iblog.moder.Authority;
+import org.springframework.stereotype.Service;
 
 /**
  * 权限服务接口
  */
+@Service
 public interface AuthorityService {
 
     /**
