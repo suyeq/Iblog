@@ -1,4 +1,4 @@
-package com.suye.iblog.reponse;
+package com.suye.iblog.component;
 /**
  * 返回的内容
  * success:判断是否响应
@@ -10,6 +10,7 @@ public class Response {
     private String message;
     private Object body;
 
+    public  Response(){}
     public Response(Boolean success, String message){
         this.success = success;
         this.message=message;
@@ -43,5 +44,10 @@ public class Response {
 
     public void setBody(Object body) {
         this.body = body;
+    }
+
+    @Override
+    public String toString(){
+        return success+message;
     }
 }

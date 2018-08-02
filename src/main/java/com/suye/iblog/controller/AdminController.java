@@ -1,6 +1,6 @@
 package com.suye.iblog.controller;
 
-import com.suye.iblog.reponse.Menu;
+import com.suye.iblog.component.Menu;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

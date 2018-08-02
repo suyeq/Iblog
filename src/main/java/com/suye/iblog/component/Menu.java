@@ -1,4 +1,4 @@
-package com.suye.iblog.reponse;
+package com.suye.iblog.component;
 
 import java.io.Serializable;
 

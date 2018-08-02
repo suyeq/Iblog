@@ -2,7 +2,7 @@ package com.suye.iblog.controller;
 
 import com.suye.iblog.moder.Authority;
 import com.suye.iblog.moder.User;
-import com.suye.iblog.reponse.Response;
+import com.suye.iblog.component.Response;
 import com.suye.iblog.service.impl.AuthorityServiceImle;
 import com.suye.iblog.service.impl.UserServiceImpl;
 import com.suye.iblog.util.DataBaseExcetionHandle;
