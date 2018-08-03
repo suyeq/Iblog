@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * Catalog 实体
+ * 分类 实体
  */
 @Entity // 实体
 public class Catalog implements Serializable {

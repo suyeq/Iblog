@@ -6,6 +6,7 @@ import com.suye.iblog.moder.Catalog;
 import com.suye.iblog.moder.User;
 import com.suye.iblog.moder.Vote;
 import com.suye.iblog.service.impl.BlogServiceImpl;
+import com.suye.iblog.service.impl.CatalogServiceImpl;
 import com.suye.iblog.service.impl.UserServiceImpl;
 import com.suye.iblog.util.DataBaseExcetionHandle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * 用户主页空间控制器.
  */
-@RestController
+@Controller
 @RequestMapping("/u")
 public class UserspaceController {
 
@@ -39,9 +42,11 @@ public class UserspaceController {
 	@Autowired
 	private UserServiceImpl userService;
 
-
 	@Autowired
 	private BlogServiceImpl blogService;
+
+	@Autowired
+	private CatalogServiceImpl catalogService;
 
 //	@Autowired
 //	private UserDetailsService userDetailsService;
@@ -129,14 +134,14 @@ public class UserspaceController {
 	 * @return
 	 */
 	@GetMapping("/{username}")
-	public ModelAndView userSpace(@PathVariable("username") String username,Model model) {
-		User user=(User) userService.loadUserByUsername(username);
-		model.addAttribute("user",user);
-		return new ModelAndView("/u/"+username+"/blogs",null,model);
+	public String userSpace(@PathVariable("username") String username, Model model) {
+		User  user = (User)userService.loadUserByUsername(username);
+		model.addAttribute("user", user);
+		return "redirect:/u/" + username + "/blogs";
 	}
 
 	/**
-	 * 展示某人　博客
+	 * 展示某人　博客列表
 	 * @param username
 	 * @param order
 	 * @param catalogId
@@ -157,13 +162,14 @@ public class UserspaceController {
 								   @RequestParam(value="pageSize",required=false,defaultValue="10") int pageSize,
 								   Model model) {
 
+
 		User  user = (User)userService.loadUserByUsername(username);
 		Page<Blog> page = null;
 		if (catalogId != null && catalogId > 0) { // 分类查询
-			//Catalog catalog = catalogService.getCatalogById(catalogId);
-			//Pageable pageable = new PageRequest(pageIndex, pageSize);
-			//page = blogService.listBlogsByCatalog(catalog, pageable);
-			//order = "";
+			Catalog catalog = catalogService.getCatalogById(catalogId);
+			Pageable pageable = new PageRequest(pageIndex, pageSize);
+			page = blogService.listBlogsByCatalog(catalog, pageable);
+			order = "";
 		} else if (order.equals("hot")) { // 最热查询
 			Sort sort = new Sort(Sort.Direction.DESC,"readSize","commentSize","voteSize");
 			Pageable pageable = new PageRequest(pageIndex, pageSize, sort);
@@ -231,7 +237,6 @@ public class UserspaceController {
 	/**
 	 * 删除博客
 	 * @param id
-	 * @param model
 	 * @return
 	 */
 	@DeleteMapping("/{username}/blogs/{id}")
@@ -256,10 +261,10 @@ public class UserspaceController {
 	@GetMapping("/{username}/blogs/edit")
 	public ModelAndView createBlog(@PathVariable("username") String username, Model model) {
 		User user = (User)userService.loadUserByUsername(username);
-		//List<Catalog> catalogs = catalogService.listCatalogs(user);
+		List<Catalog> catalogs = catalogService.listCatalogs(user);
 
 		model.addAttribute("blog", new Blog(null, null, null));
-		//model.addAttribute("catalogs", catalogs);
+		model.addAttribute("catalogs", catalogs);
 		return new ModelAndView("/userspace/blogedit", "blogModel", model);
 	}
 
@@ -272,10 +277,10 @@ public class UserspaceController {
 	public ModelAndView editBlog(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
 		// 获取用户分类列表
 		User user = (User)userService.loadUserByUsername(username);
-		//List<Catalog> catalogs = catalogService.listCatalogs(user);
+		List<Catalog> catalogs = catalogService.listCatalogs(user);
 
 		model.addAttribute("blog", blogService.getBlogById(id));
-		//model.addAttribute("catalogs", catalogs);
+		model.addAttribute("catalogs", catalogs);
 		return new ModelAndView("/userspace/blogedit", "blogModel", model);
 	}
 

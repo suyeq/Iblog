@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Like 实体
+ * 点赞 实体
  */
 @Entity // 实体
 public class Vote implements Serializable {

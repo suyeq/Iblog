@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Comment 实体
+ * 评论 实体
  */
 @Entity // 实体
 public class Comment implements Serializable {
