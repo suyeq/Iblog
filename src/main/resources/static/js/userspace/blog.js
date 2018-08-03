@@ -9,6 +9,7 @@
 
 // DOM 加载完再执行
 $(function() {
+
 	$.catalog("#catalog", ".post-content");
 	
 	// 处理删除博客事件
@@ -17,8 +18,7 @@ $(function() {
 		// 获取 CSRF Token 
 		// var csrfToken = $("meta[name='_csrf']").attr("content");
 		// var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-		
-		
+
 		$.ajax({ 
 			 url: blogUrl, 
 			 type: 'DELETE', 
@@ -40,7 +40,8 @@ $(function() {
 		     }
 		 });
 	});
-	
+
+
 	// 获取评论列表
 	function getCommnet(blogId) {
 		// 获取 CSRF Token 

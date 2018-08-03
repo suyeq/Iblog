@@ -62,7 +62,6 @@ public class Blog implements Serializable {
 
 	@Column(name="voteSize")
 	private Integer voteSize = 0;  // 点赞量
-	
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "blog_comment", joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"), 
