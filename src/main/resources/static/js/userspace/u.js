@@ -16,7 +16,7 @@ $(function() {
 	function getBlogsByName(pageIndex, pageSize) {
 		 $.ajax({ 
 			 url: "/u/"+  username  +"/blogs", 
-			 contentType : 'application/json',
+			 contentType : 'application/json;charset=UTF-8',
 			 data:{
 				 "async":true, 
 				 "pageIndex":pageIndex,

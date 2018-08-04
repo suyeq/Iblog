@@ -29,6 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -137,7 +140,12 @@ public class UserspaceController {
 	public String userSpace(@PathVariable("username") String username, Model model) {
 		User  user = (User)userService.loadUserByUsername(username);
 		model.addAttribute("user", user);
-		return "redirect:/u/" + username + "/blogs";
+		try {
+			return "redirect:/u/" + URLEncoder.encode(username,"UTF-8") + "/blogs";
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
