@@ -7,14 +7,14 @@ import com.suye.iblog.moder.Catalog;
 
 import java.io.Serializable;
 
-public class CatalogVO implements Serializable {
+public class CatalogItem implements Serializable {
  
 	private static final long serialVersionUID = 1L;
 	
 	private String username;
 	private Catalog catalog;
 	
-	public CatalogVO() {
+	public CatalogItem() {
 	}
 
 	public String getUsername() {

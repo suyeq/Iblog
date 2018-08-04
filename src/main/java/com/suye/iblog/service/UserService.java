@@ -5,6 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
+
 @Service
 /**
  * 用户服务借口
@@ -45,4 +48,6 @@ public interface UserService {
      * @return
      */
     Page<User> listUsersByNameLike(String name, Pageable pageable);
+
+
 }

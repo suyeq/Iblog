@@ -1,7 +1,7 @@
 package com.suye.iblog.controller;
 
 
-import com.suye.iblog.component.CatalogVO;
+import com.suye.iblog.component.CatalogItem;
 import com.suye.iblog.component.Response;
 import com.suye.iblog.moder.Catalog;
 import com.suye.iblog.moder.User;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -61,11 +60,11 @@ public class CatalogController {
 	 * @return
 	 */
 	@PostMapping
-	@PreAuthorize("authentication.name.equals(#catalogVO.username)")// 指定用户才能操作方法
-	public ResponseEntity<Response> create(@RequestBody CatalogVO catalogVO) {
+	@PreAuthorize("authentication.name.equals(#catalogItem.username)")// 指定用户才能操作方法
+	public ResponseEntity<Response> create(@RequestBody CatalogItem catalogItem) {
 		
-		String username = catalogVO.getUsername();
-		Catalog catalog = catalogVO.getCatalog();
+		String username = catalogItem.getUsername();
+		Catalog catalog = catalogItem.getCatalog();
 		
 		User user = (User)userDetailsService.loadUserByUsername(username);
 		
